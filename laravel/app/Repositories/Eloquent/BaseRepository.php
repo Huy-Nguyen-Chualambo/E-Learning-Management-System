@@ -1,3 +1,4 @@
+// app/Repositories/Eloquent/BaseRepository.php
 <?php
 
 namespace App\Repositories\Eloquent;
@@ -5,7 +6,7 @@ namespace App\Repositories\Eloquent;
 use App\Repositories\Contracts\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class BaseRepository implements BaseRepositoryInterface
+class BaseRepository implements BaseRepositoryInterface
 {
     protected $model;
 
@@ -21,7 +22,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
     public function find($id)
     {
-        return $this->model->findOrFail($id);
+        return $this->model->find($id);
     }
 
     public function create(array $data)
@@ -32,17 +33,29 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function update($id, array $data)
     {
         $record = $this->find($id);
-        $record->update($data);
-        return $record;
+        if ($record) {
+            $record->update($data);
+            return $record;
+        }
+        return null;
     }
 
     public function delete($id)
     {
-        return $this->find($id)->delete();
+        $record = $this->find($id);
+        if ($record) {
+            return $record->delete();
+        }
+        return false;
     }
 
-    public function paginate($perPage = 15)
+    public function where($column, $operator, $value)
     {
-        return $this->model->paginate($perPage);
+        return $this->model->where($column, $operator, $value);
+    }
+
+    public function with($relations)
+    {
+        return $this->model->with($relations);
     }
 }

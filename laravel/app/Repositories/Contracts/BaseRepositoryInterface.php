@@ -1,3 +1,4 @@
+// app/Repositories/Contracts/BaseRepositoryInterface.php
 <?php
 
 namespace App\Repositories\Contracts;
@@ -9,5 +10,6 @@ interface BaseRepositoryInterface
     public function create(array $data);
     public function update($id, array $data);
     public function delete($id);
-    public function paginate($perPage = 15);
+    public function where($column, $operator, $value);
+    public function with($relations);
 }
