@@ -1,0 +1,128 @@
+object(App\Models\User)#5931 (31) {
+  ["connection":protected]=>
+  string(6) "sqlite"
+  ["table":protected]=>
+  string(5) "users"
+  ["primaryKey":protected]=>
+  string(2) "id"
+  ["keyType":protected]=>
+  string(3) "int"
+  ["incrementing"]=>
+  bool(true)
+  ["with":protected]=>
+  array(0) {
+  }
+  ["withCount":protected]=>
+  array(0) {
+  }
+  ["preventsLazyLoading"]=>
+  bool(false)
+  ["perPage":protected]=>
+  int(15)
+  ["exists"]=>
+  bool(true)
+  ["wasRecentlyCreated"]=>
+  bool(false)
+  ["escapeWhenCastingToString":protected]=>
+  bool(false)
+  ["attributes":protected]=>
+  array(8) {
+    ["id"]=>
+    int(1)
+    ["name"]=>
+    string(11) "Super Admin"
+    ["email"]=>
+    string(24) "superadmin@deha-soft.com"
+    ["email_verified_at"]=>
+    string(19) "2025-09-17 03:56:11"
+    ["password"]=>
+    string(60) "$2y$10$8ZAcAbCoRmKpyUt/3dpRm.Yv1kg9V27aqqzTHqa4g6f3eSQil1uCS"
+    ["remember_token"]=>
+    NULL
+    ["created_at"]=>
+    string(19) "2025-09-17 03:56:11"
+    ["updated_at"]=>
+    string(19) "2025-09-17 03:56:11"
+  }
+  ["original":protected]=>
+  array(8) {
+    ["id"]=>
+    int(1)
+    ["name"]=>
+    string(11) "Super Admin"
+    ["email"]=>
+    string(24) "superadmin@deha-soft.com"
+    ["email_verified_at"]=>
+    string(19) "2025-09-17 03:56:11"
+    ["password"]=>
+    string(60) "$2y$10$8ZAcAbCoRmKpyUt/3dpRm.Yv1kg9V27aqqzTHqa4g6f3eSQil1uCS"
+    ["remember_token"]=>
+    NULL
+    ["created_at"]=>
+    string(19) "2025-09-17 03:56:11"
+    ["updated_at"]=>
+    string(19) "2025-09-17 03:56:11"
+  }
+  ["changes":protected]=>
+  array(0) {
+  }
+  ["casts":protected]=>
+  array(1) {
+    ["email_verified_at"]=>
+    string(8) "datetime"
+  }
+  ["classCastCache":protected]=>
+  array(0) {
+  }
+  ["attributeCastCache":protected]=>
+  array(0) {
+  }
+  ["dates":protected]=>
+  array(0) {
+  }
+  ["dateFormat":protected]=>
+  NULL
+  ["appends":protected]=>
+  array(0) {
+  }
+  ["dispatchesEvents":protected]=>
+  array(0) {
+  }
+  ["observables":protected]=>
+  array(0) {
+  }
+  ["relations":protected]=>
+  array(0) {
+  }
+  ["touches":protected]=>
+  array(0) {
+  }
+  ["timestamps"]=>
+  bool(true)
+  ["hidden":protected]=>
+  array(2) {
+    [0]=>
+    string(8) "password"
+    [1]=>
+    string(14) "remember_token"
+  }
+  ["visible":protected]=>
+  array(0) {
+  }
+  ["fillable":protected]=>
+  array(3) {
+    [0]=>
+    string(4) "name"
+    [1]=>
+    string(5) "email"
+    [2]=>
+    string(8) "password"
+  }
+  ["guarded":protected]=>
+  array(1) {
+    [0]=>
+    string(1) "*"
+  }
+  ["rememberTokenName":protected]=>
+  string(14) "remember_token"
+}

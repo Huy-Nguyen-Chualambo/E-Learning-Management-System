@@ -8,10 +8,6 @@ class Kernel extends HttpKernel
 {
     /**
      * The application's global HTTP middleware stack.
-     *
-     * These middleware are run during every request to your application.
-     *
-     * @var array<int, class-string|string>
      */
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
@@ -25,8 +21,6 @@ class Kernel extends HttpKernel
 
     /**
      * The application's route middleware groups.
-     *
-     * @var array<string, array<int, class-string|string>>
      */
     protected $middlewareGroups = [
         'web' => [
@@ -47,21 +41,35 @@ class Kernel extends HttpKernel
 
     /**
      * The application's route middleware.
-     *
-     * These middleware may be assigned to groups or used individually.
-     *
-     * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
-        'signed' => \App\Http\Middleware\ValidateSignature::class,
+        'signed' => \Illuminate\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        
+        // Custom middleware
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        
+        // Permission middleware
+        'can.view.users' => \App\Http\Middleware\CanViewUsers::class,
+        'can.create.users' => \App\Http\Middleware\CanCreateUsers::class,
+        'can.edit.users' => \App\Http\Middleware\CanEditUsers::class,
+        'can.delete.users' => \App\Http\Middleware\CanDeleteUsers::class,
+        
+        'can.view.roles' => \App\Http\Middleware\CanViewRoles::class,
+        'can.create.roles' => \App\Http\Middleware\CanCreateRoles::class,
+        'can.edit.roles' => \App\Http\Middleware\CanEditRoles::class,
+        'can.delete.roles' => \App\Http\Middleware\CanDeleteRoles::class,
+        
+        'can.view.permissions' => \App\Http\Middleware\CanViewPermissions::class,
+        'can.create.permissions' => \App\Http\Middleware\CanCreatePermissions::class,
+        'can.edit.permissions' => \App\Http\Middleware\CanEditPermissions::class,
+        'can.delete.permissions' => \App\Http\Middleware\CanDeletePermissions::class,
     ];
 }

@@ -12,18 +12,21 @@ class Role extends Model
     protected $fillable = [
         'name',
         'display_name',
-        'description'
+        'description',
     ];
 
-    // Relationship với User (Many-to-Many)
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_role');
+        return $this->belongsToMany(User::class, 'user_role', 'role_id', 'user_id');
     }
 
-    // Relationship với Permission (Many-to-Many)
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'role_permission');
+        return $this->belongsToMany(Permission::class, 'role_permission', 'role_id', 'permission_id');
+    }
+
+    public function hasPermission($permissionName)
+    {
+        return $this->permissions()->where('name', $permissionName)->exists();
     }
 }
