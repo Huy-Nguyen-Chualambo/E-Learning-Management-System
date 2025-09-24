@@ -21,8 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// API routes for AJAX calls
-Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
+// API routes for AJAX calls (note: in api.php the base prefix is already /api)
+Route::middleware(['auth:sanctum'])->group(function () {
     // User API routes
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/{user}', [UserController::class, 'show']);

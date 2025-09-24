@@ -16,6 +16,19 @@
                 @endhasPermission
             </div>
             <div class="card-body">
+                <form method="GET" action="{{ route('admin.roles.index') }}" class="row g-2 mb-3">
+                    <div class="col-sm-6 col-md-4">
+                        <input type="text" name="keyword" value="{{ request('keyword') }}" class="form-control" placeholder="Search roles by name, display name, description">
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="fas fa-search me-1"></i>Search
+                        </button>
+                        <a href="{{ route('admin.roles.index') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-undo me-1"></i>Reset
+                        </a>
+                    </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>

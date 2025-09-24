@@ -64,7 +64,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|min:8|confirmed',
-            'roles' => 'array'
+            'roles' => 'array',
+            'email_verified' => 'nullable|boolean'
         ]);
 
         $updateData = [
@@ -76,7 +77,10 @@ class UserController extends Controller
             $updateData['password'] = Hash::make($request->password);
         }
 
-        $user->update($updateData);
+        // Persist updates safely and bypass mass-assignment for email_verified_at
+        $user->fill($updateData);
+        $user->email_verified_at = $request->boolean('email_verified') ? now() : null;
+        $user->save();
         $user->roles()->sync($request->roles ?? []);
 
         return redirect()->route('admin.users.index')

@@ -56,6 +56,30 @@ class User extends Authenticatable
             ->unique('id');
     }
 
+    // Local scopes for searching/filtering
+    public function scopeSearch($query, string $keyword)
+    {
+        if (trim($keyword) === '') {
+            return $query;
+        }
+
+        return $query->where(function ($subQuery) use ($keyword) {
+            $subQuery->where('name', 'like', "%{$keyword}%")
+                ->orWhere('email', 'like', "%{$keyword}%");
+        });
+    }
+
+    public function scopeByRole($query, ?string $roleName)
+    {
+        if (!$roleName) {
+            return $query;
+        }
+
+        return $query->whereHas('roles', function ($q) use ($roleName) {
+            $q->where('name', $roleName);
+        });
+    }
+
     // Thêm vào User model
 public function courses()
 {

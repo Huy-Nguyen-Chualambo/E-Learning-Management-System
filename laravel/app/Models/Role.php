@@ -29,4 +29,18 @@ class Role extends Model
     {
         return $this->permissions()->where('name', $permissionName)->exists();
     }
+
+    // Local scope for searching roles by name/display_name/description
+    public function scopeSearch($query, ?string $keyword)
+    {
+        if (!$keyword || trim($keyword) === '') {
+            return $query;
+        }
+
+        return $query->where(function ($q) use ($keyword) {
+            $q->where('name', 'like', "%{$keyword}%")
+              ->orWhere('display_name', 'like', "%{$keyword}%")
+              ->orWhere('description', 'like', "%{$keyword}%");
+        });
+    }
 }

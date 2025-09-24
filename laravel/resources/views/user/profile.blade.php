@@ -32,7 +32,7 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label class="form-label">Roles</label>
+                            <label class="form-label">Status</label>
                             <div>
                                 @foreach(auth()->user()->roles as $role)
                                     <span class="badge bg-primary me-1">{{ $role->display_name }}</span>

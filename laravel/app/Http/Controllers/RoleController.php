@@ -11,15 +11,19 @@ class RoleController extends Controller
 {
     public function index(Request $request)
     {
-        $roles = Role::with('permissions')->get();
-        
+        $keyword = $request->get('keyword');
+        $roles = Role::with('permissions')
+            ->search($keyword)
+            ->orderBy('name')
+            ->get();
+
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
                 'data' => $roles
             ]);
         }
-        
+
         return view('admin.roles.index', compact('roles'));
     }
 

@@ -11,7 +11,7 @@
                     <p class="text-muted">Continue your learning journey</p>
                 </div>
                 <div class="text-end">
-                    <small class="text-muted">Your Role: </small>
+                    <small class="text-muted">Your Status: </small>
                     @foreach($user->roles as $role)
                         <span class="badge bg-primary">{{ $role->display_name }}</span>
                     @endforeach
@@ -235,7 +235,7 @@
                     </p>
                     
                     <hr>
-                    <p><strong>Your Roles:</strong></p>
+                    <p><strong>Your Status:</strong></p>
                     @foreach($user->roles as $role)
                         <span class="badge bg-secondary me-1">{{ $role->display_name }}</span>
                     @endforeach

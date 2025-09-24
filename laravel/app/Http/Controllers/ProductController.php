@@ -108,31 +108,22 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
-        $keyword = $request->get('keyword', '');
-        $categoryId = $request->get('category_id');
-        $minPrice = $request->get('min_price');
-        $maxPrice = $request->get('max_price');
-        
-        $products = $this->productService->searchProducts($keyword);
-        
-        if ($categoryId) {
-            $products = $products->filter(function($product) use ($categoryId) {
-                return $product->categories->contains('id', $categoryId);
-            });
-        }
-        
-        if ($minPrice || $maxPrice) {
-            $products = $products->filter(function($product) use ($minPrice, $maxPrice) {
-                $price = $product->final_price;
-                if ($minPrice && $price < $minPrice) return false;
-                if ($maxPrice && $price > $maxPrice) return false;
-                return true;
-            });
-        }
-        
+        $keyword = $request->get('keyword');
+        $categoryId = $request->integer('category_id');
+        $minPrice = $request->filled('min_price') ? (float) $request->get('min_price') : null;
+        $maxPrice = $request->filled('max_price') ? (float) $request->get('max_price') : null;
+
+        $products = \App\Models\Product::with('categories')
+            ->active()
+            ->search($keyword)
+            ->byCategory($categoryId)
+            ->byPriceRange($minPrice, $maxPrice)
+            ->orderBy('sort_order')
+            ->get();
+
         return response()->json([
             'success' => true,
-            'data' => $products->values()
+            'data' => $products
         ]);
     }
 

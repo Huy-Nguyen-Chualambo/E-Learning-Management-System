@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\CourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,17 +38,16 @@ Route::middleware('auth')->group(function () {
         return view('user.profile');
     })->name('user.profile');
     
-    Route::get('/courses', function () {
-        return view('user.courses');
-    })->name('user.courses');
+    // Courses listing and detail
+    Route::get('/courses', [CourseController::class, 'index'])->name('user.courses');
+    Route::get('/courses/category/{slug}', [CourseController::class, 'category'])->name('user.courses.category');
+    Route::get('/courses/{product}', [CourseController::class, 'show'])->name('user.courses.show');
 });
 
 // Admin Routes - chỉ admin mới vào được
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Admin Dashboard
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     
     // Users Management
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
