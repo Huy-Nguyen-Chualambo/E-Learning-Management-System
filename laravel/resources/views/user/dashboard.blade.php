@@ -3,6 +3,20 @@
 
 @section('content')
 <div class="container">
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+    
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+    
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -21,6 +35,14 @@
                         <br>
                         <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-outline-danger mt-2">
                             <i class="fas fa-tools me-1"></i>Go to Admin Panel
+                        </a>
+                    @endif
+
+                    {{-- Ví dụ phân quyền phần tử với permission cụ thể --}}
+                    @if(auth()->check() && auth()->user()->hasPermission('view-products'))
+                        <br>
+                        <a href="{{ route('admin.products.index') }}" class="btn btn-sm btn-outline-primary mt-2">
+                            <i class="fas fa-grip"></i> Manage Courses
                         </a>
                     @endif
                 </div>
@@ -203,7 +225,10 @@
                                                 @endif
                                             </strong>
                                         </div>
-                                        <button class="btn btn-sm btn-success">Enroll Now</button>
+                                        <form action="{{ route('user.courses.enroll', $course->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-success">Enroll Now</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

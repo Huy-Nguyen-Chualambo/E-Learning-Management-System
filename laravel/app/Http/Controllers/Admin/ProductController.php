@@ -6,11 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Category;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    protected ProductService $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
     public function index()
     {
         $products = Product::with(['instructor', 'categories'])
@@ -33,7 +40,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'content' => 'nullable|string',
@@ -44,25 +51,7 @@ class ProductController extends Controller
             'categories' => 'array',
             'categories.*' => 'exists:categories,id',
         ]);
-
-        $product = Product::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'description' => $request->description,
-            'content' => $request->content,
-            'price' => $request->price,
-            'duration_hours' => $request->duration_hours,
-            'level' => $request->level,
-            'instructor_id' => $request->instructor_id,
-            'is_active' => $request->has('is_active') ? 1 : 0,
-            'is_featured' => $request->has('is_featured') ? 1 : 0,
-            'sort_order' => Product::max('sort_order') + 1,
-        ]);
-
-        // Attach categories
-        if ($request->has('categories')) {
-            $product->categories()->attach($request->categories);
-        }
+        $product = $this->productService->createProduct($validated);
 
         return redirect()->route('admin.products.index')
                         ->with('success', 'Course created successfully.');
@@ -88,7 +77,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'content' => 'nullable|string',
@@ -99,26 +88,7 @@ class ProductController extends Controller
             'categories' => 'array',
             'categories.*' => 'exists:categories,id',
         ]);
-
-        $product->update([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'description' => $request->description,
-            'content' => $request->content,
-            'price' => $request->price,
-            'duration_hours' => $request->duration_hours,
-            'level' => $request->level,
-            'instructor_id' => $request->instructor_id,
-            'is_active' => $request->has('is_active') ? 1 : 0,
-            'is_featured' => $request->has('is_featured') ? 1 : 0,
-        ]);
-
-        // Sync categories
-        if ($request->has('categories')) {
-            $product->categories()->sync($request->categories);
-        } else {
-            $product->categories()->detach();
-        }
+        $this->productService->updateProduct($product->id, $validated);
 
         return redirect()->route('admin.products.index')
                         ->with('success', 'Course updated successfully.');
@@ -126,9 +96,7 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        $product->categories()->detach();
-        $product->users()->detach();
-        $product->delete();
+        $this->productService->deleteProduct($product->id);
 
         return redirect()->route('admin.products.index')
                         ->with('success', 'Course deleted successfully.');

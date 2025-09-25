@@ -20,7 +20,7 @@ class DashboardController extends Controller
         }]);
 
         // Lấy available courses
-        $availableCourses = Product::where('status', 'active')
+        $availableCourses = Product::active()
             ->whereNotIn('id', $user->courses->pluck('id'))
             ->with(['categories', 'instructor'])
             ->limit(6)

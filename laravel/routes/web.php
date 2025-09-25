@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/courses', [CourseController::class, 'index'])->name('user.courses');
     Route::get('/courses/category/{slug}', [CourseController::class, 'category'])->name('user.courses.category');
     Route::get('/courses/{product}', [CourseController::class, 'show'])->name('user.courses.show');
+    Route::post('/courses/{product}/enroll', [CourseController::class, 'enroll'])->name('user.courses.enroll');
 });
 
 // Admin Routes - chỉ admin mới vào được
@@ -63,4 +64,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // Categories Management (if needed)
     Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
+
+    // Admin Routes - thêm vào group admin
+    Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
 });

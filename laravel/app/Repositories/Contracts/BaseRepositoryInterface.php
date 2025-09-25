@@ -1,6 +1,4 @@
-// app/Repositories/Contracts/BaseRepositoryInterface.php
 <?php
-
 namespace App\Repositories\Contracts;
 
 interface BaseRepositoryInterface

@@ -1,4 +1,3 @@
-// app/Repositories/Eloquent/BaseRepository.php
 <?php
 
 namespace App\Repositories\Eloquent;

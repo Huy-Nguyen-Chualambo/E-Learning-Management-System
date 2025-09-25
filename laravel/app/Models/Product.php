@@ -11,13 +11,21 @@ class Product extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
+        'content',
         'price',
         'image',
-        'status',
-        'instructor_id', // Thêm trường này
-        'duration_hours', // Thêm trường này
-        'level', // Thêm trường này
+        // Status/flags and ordering
+        'is_active',
+        'is_featured',
+        'sort_order',
+        // Relations and course meta
+        'instructor_id',
+        'duration_hours',
+        'duration',
+        'level',
+        'sale_price',
     ];
 
     protected $casts = [
@@ -50,7 +58,7 @@ class Product extends Model
     // Scopes
     public function scopeActive($query)
     {
-        return $query->where('status', 'active');
+        return $query->where('is_active', 1);
     }
 
     public function scopeByLevel($query, $level)

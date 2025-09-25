@@ -30,7 +30,10 @@
                         <div>{{ $product->instructor->name }}</div>
                     </div>
                     @endif
-                    <a href="#" class="btn btn-primary w-100">Enroll</a>
+                    <form action="{{ route('user.courses.enroll', $product->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-primary w-100">Enroll</button>
+                    </form>
                 </div>
             </div>
         </div>
